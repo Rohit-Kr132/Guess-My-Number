@@ -11,28 +11,26 @@ const clearInputField = function () {
   document.querySelector('.guess').value = '';
 };
 
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
 let secretNumber = generateNumber();
 let score = document.querySelector('.score').textContent;
 let highscore = 0;
-
-// document.querySelector('.number').textContent = secretNumber;
 
 //Actual Game logic
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
 
   if (!guess) {
-    document.querySelector('.message').textContent = '⛔ No Number!';
-  } else if (guess < secretNumber) {
-    document.querySelector('.message').textContent = '📉 Too Low!';
-    decreaseScore();
-    clearInputField();
-  } else if (guess > secretNumber) {
-    document.querySelector('.message').textContent = '📈 Too High!';
+    displayMessage('⛔ No Number!');
+  } else if (guess != secretNumber) {
+    displayMessage(guess < secretNumber ? '📉 Too Low!' : '📈 Too High!');
     decreaseScore();
     clearInputField();
   } else {
-    document.querySelector('.message').textContent = '🎉 Correct Number!';
+    displayMessage('🎉 Correct Number!');
     document.querySelector('.number').textContent = secretNumber;
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
@@ -44,14 +42,14 @@ document.querySelector('.check').addEventListener('click', function () {
   }
 
   if (score === 0) {
-    document.querySelector('.message').textContent = '🚫 Game Over!';
+    displayMessage('🚫 Game Over!');
   }
 });
 
 //Programming the reset(again button)
 document.querySelector('.again').addEventListener('click', function () {
   document.querySelector('.number').textContent = '?';
-  document.querySelector('.message').textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   document.querySelector('body').style.backgroundColor = '#222';
   document.querySelector('.number').style.width = '15rem';
 
